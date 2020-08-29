@@ -12,7 +12,10 @@ public class TicTacToeBoard {
   public TicTacToeBoard(String board) {
     BoardState = board;
     if (BoardState.length() != 9){  //Assuming n=3
-      //throw new IllegalArgumentException;
+      //throw error
+      else{
+
+      }
     }
   }
 
