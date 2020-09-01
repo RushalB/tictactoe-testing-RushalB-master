@@ -7,27 +7,27 @@ import static org.junit.Assert.assertEquals;
 public class TicTacToeBoardTest {
 
   @Test
-  public void testValidBoardNoWinner() {
-    TicTacToeBoard board = new TicTacToeBoard("O...X.X..");
+  public void testValidBoardStartGame() {
+    TicTacToeBoard board = new TicTacToeBoard(".........");
     assertEquals(Evaluation.NoWinner, board.evaluate());
   }
 
   @Test
   public void testValidBoardXWinscol() {
     TicTacToeBoard board = new TicTacToeBoard("O...X.X..");
-    assertEquals(Evaluation.Owins, board.evaluate());
+    assertEquals(Evaluation.Xwins, board.evaluate());
   }
 
   @Test
   public void testValidBoardXWinsrow() {
     TicTacToeBoard board = new TicTacToeBoard("O...X.X..");
-    assertEquals(Evaluation.Owins, board.evaluate());
+    assertEquals(Evaluation.Xwins, board.evaluate());
   }
 
   @Test
   public void testValidBoardXWinsdiagnol() {
     TicTacToeBoard board = new TicTacToeBoard("O...X.X..");
-    assertEquals(Evaluation.Owins, board.evaluate());
+    assertEquals(Evaluation.Xwins, board.evaluate());
   }
 
   @Test
