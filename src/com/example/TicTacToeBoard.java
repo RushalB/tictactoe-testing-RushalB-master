@@ -17,11 +17,11 @@ public class TicTacToeBoard {
    */
   public TicTacToeBoard(String loadBoard) {
     board = loadBoard.toUpperCase();
-    if (board.length() != 9) {
+    if (board.length() > 8) {
       int c = 0;
-      boardState = new char[BOARDSIZE - 1][BOARDSIZE - 1];
-      for (int i = 0; i < 2; i++) {
-        for (int j = 0; j < 2; j++) {
+      boardState = new char[BOARDSIZE][BOARDSIZE];
+      for (int i = 0; i <= 2; i++) {
+        for (int j = 0; j <= 2; j++) {
           boardState[i][j] = board.charAt(c++);
         }
       }
@@ -37,13 +37,17 @@ public class TicTacToeBoard {
    * @return an enum value corresponding to the board evaluation
    */
   public Evaluation evaluate() {
+
+    int checkForWinner = checkForWinner();
     if (checkValidity() == true) {
-      if (checkForWinner() == 5) {
+      if (checkForWinner == 5) {
         return Evaluation.Xwins;
-      } else if (checkForWinner() == 7) {
+      } else if (checkForWinner == 7) {
         return Evaluation.Owins;
-      } else {
+      } else if (checkForWinner == 0) {
         return Evaluation.NoWinner;
+      } else {
+        return Evaluation.UnreachableState;
       }
     } else {
       return Evaluation.UnreachableState;
@@ -52,7 +56,7 @@ public class TicTacToeBoard {
 
   /**
    * Checks if the board has valid inputs that is number of Xs should be either equal to or one more
-   *than number of Os
+   * than number of Os
    *
    * @return true if valid inputs are entered,false if invalid inputs are entered
    */
@@ -71,6 +75,7 @@ public class TicTacToeBoard {
     }
     return false;
   }
+
   /**
    * Checks the number of wins in the current state of board.
    *
@@ -78,84 +83,77 @@ public class TicTacToeBoard {
    */
   private int checkForWinner() {
     int result = 0;
+
     result = checkDiagonal() + checkRow() + checkCol();
     return result;
   }
+
   /**
-   * Checks if there are any wins diagonally
-   * Assign 5 for every X win
-   * Assigns 7 for every O win
-   * to the Number of wins counter
+   * Checks if there are any wins diagonally Assign 5 for every X win Assigns 7 for every O win to
+   * the Number of wins counter
+   *
    * @return NumberofWinners which gives number of diagonal wins
    */
   private int checkDiagonal() {
-    int NumberOfWinners = 0;
+    int NumberOfWinnersD = 0;
     if (boardState[0][0] == boardState[1][1] && boardState[2][2] == boardState[1][1]) {
       if (boardState[0][0] == 'X') {
-        NumberOfWinners += 5;
+        NumberOfWinnersD = NumberOfWinnersD + 5;
       } else if (boardState[0][0] == 'O') {
-        NumberOfWinners += 7;
+        NumberOfWinnersD += 7;
       } else {
-        NumberOfWinners += 0;
+        NumberOfWinnersD += 0;
       }
     }// L-R Diagnol
 
     else if (boardState[2][0] == boardState[1][1] && boardState[0][2] == boardState[1][1]) {
       if (boardState[1][1] == 'X') {
-        NumberOfWinners += 5;
+        NumberOfWinnersD += 5;
       } else if (boardState[1][1] == 'O') {
-        NumberOfWinners += 7;
+        NumberOfWinnersD += 7;
       } else {
-        NumberOfWinners += 0;
+        NumberOfWinnersD += 0;
       }
     }// R-L Diagnol
-    return NumberOfWinners;
+    return NumberOfWinnersD;
   }
+
   /**
-   * Checks if there are any wins horizontally
-   * Assign 5 for every X win
-   * Assigns 7 for every O win
-   * to the Number of wins counter
+   * Checks if there are any wins horizontally Assign 5 for every X win Assigns 7 for every O win to
+   * the Number of wins counter
+   *
    * @return NumberofWinners which gives number of row wins
    */
   private int checkRow() {
-    int NumberofWinners = 0;
-    if (boardState[0][0] == boardState[0][1] && boardState[0][1] == boardState[0][2]) {
-      if (boardState[0][1] == 'X') {
-        NumberofWinners += 5;
-      } else if (boardState[0][1] == 'O') {
-        NumberofWinners += 7;
-      } else {
-        NumberofWinners += 0;
-      }
-    }//Row 1
-    else if (boardState[1][0] == boardState[1][1] && boardState[1][1] == boardState[1][2]) {
-      if (boardState[1][1] == 'X') {
-        NumberofWinners += 5;
-      } else if (boardState[1][1] == 'O') {
-        NumberofWinners += 7;
-      } else {
-        NumberofWinners += 0;
-      }
-    }//Row 2
-    else if (boardState[2][0] == boardState[2][1] && boardState[2][1] == boardState[2][2]) {
-      if (boardState[2][1] == 'X') {
-        NumberofWinners += 5;
-      } else if (boardState[2][1] == 'O') {
-        NumberofWinners += 7;
-      } else {
-        NumberofWinners += 0;
-      }
-    }//Row 3
-    System.out.println("" + NumberofWinners);
-    return NumberofWinners;
+    int NumberofWinnersR = 0;
+    if ((boardState[0][0] == 'X') && (boardState[0][1] == 'X') && (boardState[0][2] == 'X')) {
+      NumberofWinnersR += 5;
+    } else if ((boardState[0][0] == 'O') && (boardState[0][1] == 'O') && (boardState[0][2]
+        == 'O')) {
+      NumberofWinnersR += 7;
+    }
+    //Row 1
+    if ((boardState[1][0] == 'X') && (boardState[1][1] == 'X') && (boardState[1][2] == 'X')) {
+      NumberofWinnersR += 5;
+    } else if ((boardState[1][0] == 'O') && (boardState[1][1] == 'O') && (boardState[1][2]
+        == 'O')) {
+      NumberofWinnersR += 7;
+    } //Row 2
+    if ((boardState[2][0] == 'X') && (boardState[2][1] == 'X') && (boardState[2][2] == 'X')) {
+      NumberofWinnersR += 5;
+    } else if ((boardState[2][0] == 'O') && (boardState[2][1] == 'O') && (boardState[2][2]
+        == 'O')) {
+      NumberofWinnersR += 7;
+    } //Row 3
+
+    return NumberofWinnersR;
 
   }
+
   /**
-   * Checks if there are any wins vertically
-   * Assign 5 for every X win
-   * Assigns 7 for every O win
-   * to the Number of wins counter
+   * Checks if there are any wins vertically Assign 5 for every X win Assigns 7 for every O win to
+   * the Number of wins counter
+   *
    * @return NumberofWinners which gives number of column wins
    */
   private int checkCol() {
